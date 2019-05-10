@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Méta-données -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Importer index.css -->
+    <link rel="stylesheet" type="text/css" href="./assets/stylesheets/index.css" />
+
+    <!-- Importer Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Gestion école</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestion des notes d'une école</h1>
+
+        <!-- Tableau d'élèves -->
+        <table>
+
+            <!-- Noms de colonnes -->
+            <thead>
+                <tr>
+                    <th scope="col" class="w-15">Sélectionner</th>
+                    <th scope="col" class="w-15">ID élève</th>
+                    <th scope="col" class="w-15">Nom</th>
+                    <th scope="col" class="w-15">Prénom</th>
+                    <th scope="col" class="w-15">Modifier</th>
+                    <th scope="col" class="w-15">Supprimer</th>
+                </tr>
+            </thead>
+
+            <!-- Corps : un élève par ligne -->
+            <tbody id="tbody-Eleves">
+            </tbody>
+
+        </table>
+
+        <!-- Bouton pour ouvrir un collapse (ajouter un élève) -->
+        <!-- (attributs supplémentaires : data-toggle, data-target, aria-expanded, aria-controls) -->
+        <button class="btn btn-primary btn-block" id="collapseAjouterEleve" type="button" data-toggle="collapse"
+            data-target="#divAjouterEleve">
+            Ajouter élève
+        </button>
+
+        <!-- Collapse : Ajouter un élève -->
+        <div class="collapse" id="divAjouterEleve">
+            <div class="card card-body">
+                <form action="/action_page.php" class="form-horizontal" method="post">
+
+                    <!-- Tableau : ID (complété automatiquement), nom et prénom de l'élève -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="w-30">ID</th>
+                                <th class="w-30">Nom</th>
+                                <th class="w-30">Prenom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="txtIdEleve" class="form-control" placeholder="" readonly></td>
+                                <td><input id="txtNomEleve" class="form-control" placeholder="Entrer nom"></td>
+                                <td><input id="txtPrenomEleve" class="form-control" placeholder="Entrer prénom"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Confirmer l'ajout d'élève -->
+                    <!-- (bouton centré de taille moyenne) -->
+                    <p>
+                        <button class="btn btn-outline-primary col-md-5 button-center" type="button"
+                            id="cmdAjouterEleve">
+                            Ajouter
+                        </button>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Tableau de notes -->
+        <table id="tblNotes">
+
+            <!-- Noms de colonnes -->
+            <thead>
+                <tr>
+                    <th scope="col" class="w-15">ID Note</th>
+                    <th scope="col" class="w-15">Matière</th>
+                    <th scope="col" class="w-15">Note</th>
+                    <th scope="col" class="w-15">Coefficient</th>
+                    <th scope="col" class="w-15">Date d'examen</th>
+                </tr>
+            </thead>
+
+            <!-- Corps : une note par ligne -->
+            <tbody id="tbody-Notes">
+            </tbody>
+
+        </table>
+
+        <!-- Modal (réagit au bouton "Modifier") -->
+        <!-- (id = "modalCmdUpdate", il est lié à la fonction ajouterLigneEleve()) -->
+        <!-- (l'atttribut "modal-xl" génère un modal de grande taille - voir CSS) -->
+        <div class="modal fade" id="modalCmdUpdate" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <!-- En-tête du modal (titre et bouton de fermeture) -->
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modifier notes</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Corps du modal -->
+                    <div class="modal-body">
+
+                        <!-- Afficher ID, nom et prénom de l'élève -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tbody-ModalEleve">
+                                <tr>
+                                    <td><input id="txtModalID" class="form-control" placeholder="" readonly></td>
+                                    <td><input id="txtModalNom" class="form-control" placeholder=""></td>
+                                    <td><input id="txtModalPrenom" class="form-control" placeholder=""></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                        <!-- Afficher notes de l'élève -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="w-15">ID Note</th>
+                                    <th scope="col" class="w-15">Matière</th>
+                                    <th scope="col" class="w-15">Note</th>
+                                    <th scope="col" class="w-15">Coefficient</th>
+                                    <th scope="col" class="w-20">Date d'examen</th>
+                                    <th scope="col" class="w-15">Modifier</th>
+                                    <th scope="col" class="w-15">Supprimer</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tbody-ModalNotes">
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <!-- Pieds du modal (boutons) -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary">Ajouter note</button>
+                        <button type="button" class="btn btn-primary">Enregistrer</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- Importer scripts JQuery, puis Popper.js, puis Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- Importer sources.js en dernier -->
+    <script src="./assets/js/sources.js"></script>
+</body>
+
+</html>

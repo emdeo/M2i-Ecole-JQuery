@@ -1,0 +1,52 @@
+
+/* Régler la largeur d'une colonne d'un tableau */
+table .w-5 {
+  width:5%;
+}
+
+table .w-10 {
+  width:10%;
+}
+
+table .w-15 {
+  width:15%;
+}
+
+table .w-20 {
+  width:20%;
+}
+
+table .w-25 {
+  width:25%;
+}
+
+table .w-30 {
+  width:30%;
+}
+
+.button-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Dans un tableau, centrer le texte des noms de colonne <th> */
+.thead-center {
+  text-align: center;   
+}
+
+/* Tableau sans bordures */
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+/* Nouvelle dimension de modal (plus large) */
+.modal .modal-xl {
+  width: 90%;
+  max-width:1200px;
+}

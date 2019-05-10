@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="./assets/stylesheets/index.css" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Gestion école</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestion des notes d'une école</h1>
+
+        <!-- saut de ligne -->
+        <br />
+
+        <table class="table" id="tblEleves">
+            <thead>
+                <tr>
+                    <th scope="col" class="w-15">Sélectionner</th>
+                    <th scope="col" class="w-10">ID élève</th>
+                    <th scope="col" class="w-20">Nom</th>
+                    <th scope="col" class="w-20">Prenom</th>
+                    <th scope="col" class="w-15">Modifier</th>
+                    <th scope="col" class="w-15">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <p>
+            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+                data-target="#divAjouterEleve" aria-expanded="false" aria-controls="divAjouterEleve">
+                Insérer un nouvel élève dans le tableau
+            </button>
+        </p>
+
+        <div class="collapse" id="divAjouterEleve">
+            <div class="card card-body">
+                <form action="/action_page.php" class="form-horizontal" method="post">
+
+                    <!-- Nom de l'élève -->
+                    <div class="form-group row">
+                        <label for="txtNomEleve" class="col-md-2">
+                            Nom
+                        </label>
+
+                        <div class="col-md-10">
+                            <input type="text" id="txtNomEleve" class="form-control" placeholder="Nom de l'élève" />
+                        </div>
+                    </div>
+
+                    <!-- Prénom de l'élève -->
+                    <div class="form-group row">
+                        <label for="txtPrenomEleve" class="col-md-2">
+                            Prénom
+                        </label>
+
+                        <div class=" col-md-10">
+                            <input type="text" id="txtPrenomEleve" class="form-control"
+                                placeholder="Prénom de l'élève" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-success col-md-5 button-center" type="button" id="btnAjouterEleve">
+                        Ajouter
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tableau affichant les notes d'un élève -->
+        <table class="table" id="tblNotes">
+            <thead>
+                <!-- Nom de l'élève sélectionné -->
+                <tr>
+                    <h4 id="titreTblNotes"></h4>
+                </tr>
+
+                <!-- Noms de colonnes -->
+                <tr>
+                    <th scope="col" class="w-20">Note</th>
+                    <th scope="col" class="w-20">Coefficient</th>
+                    <th scope="col" class="w-30">Matière</th>
+                    <th scope="col" class="w-30">Date</th>
+                </tr>
+            </thead>
+            <tbody id="tblNotesBody">
+            </tbody>
+        </table>
+
+        <button class="btn btn-secondary col-md-4" type="button" id="btnCacherTableau">
+            Cacher notes
+        </button>
+
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdateLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalUpdateLabel">New message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Contenu du modal -->
+                    <div class="modalUpdate-body form-horizontal">
+
+                        <!-- ID, nom et prénom de l'élèves modifiable via 2 éléments inputs -->
+                        <table class="table table-borderless" id="modalTblEleve">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="w-30">ID</th>
+                                    <th scope="col" class="w-30">Nom</th>
+                                    <th scope="col" class="w-30">Prénom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control" id="modalTxtID" name="modalTxtID"
+                                            readonly></td>
+                                    <td><input type="text" class="form-control" id="modalTxtNom" name="modalTxtNom">
+                                    </td>
+                                    <td><input type="text" class="form-control" id="modalTxtPrenom"
+                                            name="modalTxtPrenom">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Tableau de notes, modifiable via des éléments inputs -->
+                        <table class="table table-striped" id="modalTblNotes">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="w-15 thead-center">ID note</th>
+                                    <th scope="col" class="w-15 thead-center">Note</th>
+                                    <th scope="col" class="w-15 thead-center">Coefficient</th>
+                                    <th scope="col" class="w-15 thead-center">Matière</th>
+                                    <th scope="col" class="w-15 thead-center">Date</th>
+                                    <th scope="col" class="w-15">Modifier</th>
+                                    <th scope="col" class="w-15">Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalUpdateTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pieds du modal (boutons "Annuler" et "Enregistrer") -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-success" id="btnAjouterNote">Ajouter note</button>
+                        <button type="button" class="btn btn-primary" id="btnEnregistrerModifications">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- First JQuery, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- Importer les scripts JQuery en dernier -->
+    <script src="./sources.js"></script>
+</body>
+
+</html>
